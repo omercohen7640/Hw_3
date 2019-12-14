@@ -13,7 +13,7 @@ typedef int (*HashFunc) (pKey key, int size);
 typedef Result (*PrintFunc) (pElement element);
 typedef CompResult (*CompareFunc) (pKey key1, pKey key2);
 typedef pKey (*GetKeyFunc) (pElement element);
-typedef void (*DestroyFunc)(pElement element);
+typedef void (*DestroyFunc)(pElement element); // should return Result value?
 
 // Add your declarations here...
 /*********************************************************************************

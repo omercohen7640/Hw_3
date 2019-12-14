@@ -1,6 +1,7 @@
 #ifndef _DICT_H_
 #define _DICT_H_
-#define _DIC_SIZE_  25*26;
+#define _DIC_SIZE_  25*26; //dictionary size
+#define _MAGIC_NUM_ 26; //number four the hash function
 #include "hash.h"
 
 typedef struct _Dic *pDic;

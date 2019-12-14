@@ -23,6 +23,9 @@ pHash ReadDictionary () {
 }
 *********/
 int main () {
-    // Add your code here...
+    char test[25];
+    char* test1= "omer";
+    strcpy(test,test1);
+    printf(test);
     return 0;
 }
