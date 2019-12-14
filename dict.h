@@ -2,6 +2,7 @@
 #define _DICT_H_
 #define _DIC_SIZE_  25*26; //dictionary size
 #define _MAGIC_NUM_ 26; //number four the hash function
+#define _MAX_WORD_SIZE 25;
 #include "hash.h"
 
 typedef struct _Dic *pDic;

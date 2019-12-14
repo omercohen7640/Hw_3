@@ -93,11 +93,35 @@ pDic CreateDictionary(){
     PrintFunc p_printfunc = PrintEntry; //pointer to printFunc
     CompareFunc  p_comparefunc = CompareWords; //pointer to compareFunc
     GetKeyFunc p_getkey = GetEntryKey; //pointer to getKeyFunc
-
-
-    p_dic->hash_table = HashCreate
+    DestroyFunc p_destroyfunc = DestroyEntry; //pointer to destroyFunc
+    p_dic = (pDic)malloc(sizeof(Dictionary));
+    p_dic->hash_table = HashCreate(((int)_DIC_SIZE_),p_hashfunc,p_printfunc,p_comparefunc,p_getkey,p_destroyfunc);
+    return p_dic;
 }
 
+/*********************************************************************************
+Function name: AddTranslation
+Description: add definition to the the dictionary
+Parameters:
+p_dic - pointer to the dictionary
+word - word the user want to add
+translation - the word's translation
+Return value: return SUCCESS or FAILURE.
+**********************************************************************************/
+Result AddTranslation(pDic p_dic, char* word, char* translation){
+    int max_size = _MAX_WORD_SIZE;
+    pDicDef p_dicdef;
+    if ( p_dic == NULL || strlen(word) > max_size || strlen(translation)> max_size)
+    {
+        return FAIL;
+    }
+    else{
+        p_dicdef = (pDicDef)malloc(sizeof(DicDef));
+        strcpy(p_dicdef->word,word);
+        strcpy(p_dicdef->translation,translation);
+        return HashAdd(p_dic->hash_table,p_dicdef);
+    }
+}
 
 
 
