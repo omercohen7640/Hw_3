@@ -94,6 +94,13 @@ Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
 Result DeleteTranslation(pDic p_dic, char* word);
 
-// Result PrintD
+/*********************************************************************************
+Function name: PrintDictionary
+Description: the function print all definitions in dictionary
+Parameters:
+p_dic - pointer to the dictionary
+Return value: return SUCCESS or FAILURE.
+**********************************************************************************/
+Result PrintDictionary(pDic p_dic);
 
 #endif

@@ -76,9 +76,7 @@ p_dicdef- pointer to a dictionary definition
 Return value: return FAILURE if something went wrong and SUCCES otherwise
 **********************************************************************************/
 Result DestroyEntry(pDicDef p_dicdef){
-    if (p_dicdef == NULL) return FAIL;
     free(p_dicdef);
-    return SUCCESS;
 }
 
 /*********************************************************************************
@@ -123,8 +121,46 @@ Result AddTranslation(pDic p_dic, char* word, char* translation){
     }
 }
 
+/*********************************************************************************
+Function name: Translate
+Description: the function search for a definition and print the definition
+Parameters:
+p_dic - pointer to the dictionary
+word - word the user want to print it's definition
+Return value: return SUCCESS or FAILURE.
+**********************************************************************************/
+Result Translate(pDic p_dic, char* word){
+    if (word == NULL) return FAIL;
+    pDicDef p_dicdef = HashFind(p_dic->hash_table,word);
+    printf("Translation: %s : %s\n",p_dicdef->word,p_dicdef->translation);
+    return SUCCESS;
+}
 
+/*********************************************************************************
+Function name: DeleteTranslation
+Description: the function search for a definition by a word and deletes it
+Parameters:
+p_dic - pointer to the dictionary
+word - word the user want to delete it's definition
+Return value: return SUCCESS or FAILURE.
+**********************************************************************************/
+Result DeleteTranslation(pDic p_dic, char* word){
+    if (word == NULL) return FAIL;
+    return HashRemove(p_dic->hash_table,word);
+}
 
+/*********************************************************************************
+Function name: PrintDictionary
+Description: the function print all definitions in dictionary
+Parameters:
+p_dic - pointer to the dictionary
+Return value: return SUCCESS or FAILURE.
+**********************************************************************************/
+Result PrintDictionary(pDic p_dic){
+    if (p_dic == NULL) return FAIL;
+    printf("Dictionary Contents\n");
+    return HashPrint(p_dic->hash_table);
+}
 
 
 
