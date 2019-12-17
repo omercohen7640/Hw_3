@@ -4,10 +4,18 @@
 
 // Insert your code here...
 
+//------definition of struct node element--------//
+
+typedef struct _nodeElement {
+    pKey pElement_key; // not sure if needed...
+    pElement pData;
+    pNode_Element pNext_node;
+} node_element;
+
 //--------definition of struct hash table--------//
 typedef struct _Hash {
     int hashTable_size;
-    pElement* table_head;
+    pNode_Element* table_head;
     HashFunc pfunc_search;
     PrintFunc pfunc_print;
     CompareFunc pfunc_compare;
@@ -15,16 +23,6 @@ typedef struct _Hash {
     DestroyFunc pfunc_destroy;
 } hashTable;
 
-
-//------definition of struct node element--------//
-// definition of node in linked list
-typedef struct _pNode_Element *pNode_Element;
-
-typedef struct _nodeElement {
-    pKey pElement_key; // not sure if needed...
-    pElement pData;
-    pNode_Element pNext_node;
-} node_element;
 
 //-------------------------------------helping functions-----------------------------------//
 void malloc_error()
@@ -56,6 +54,7 @@ pHash HashCreate (int size, HashFunc pfunc_search, PrintFunc pfunc_print, Compar
     {
         malloc_error();
     }
+    p_HashTable->table_head = pNodeElement;
     return p_HashTable;
 }
 
@@ -92,8 +91,14 @@ Return value: pElement - a pointer to the element with the key given
 pElement HashFind (pHash p_HashTable, pKey p_key)
 {
     int place_in_hashTable = p_HashTable->pfunc_search(p_key, p_HashTable->hashTable_size);
-    pElement* current = p_HashTable->table_head;
-    //איך מקדמים את current כמו איברים במערך? ואיך משווים את האינדקס?
+    pNode_Element current = *(p_HashTable->table_head + place_in_hashTable);
+    while (current != NULL)
+    {
+        if (p_HashTable->pfunc_compare(p_key, current->pElement_key) == SAME)
+        {
+
+        }
+    }
 }
 
 /*********************************************************************************
