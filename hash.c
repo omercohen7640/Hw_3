@@ -58,7 +58,7 @@ pHash HashCreate (int size, HashFunc pfunc_search, PrintFunc pfunc_print, Compar
         malloc_error();
     }
     p_HashTable->hashTable_size = size;
-    p_HashTable->table_head = pNodeElement;
+    p_HashTable->table_head = &pNodeElement;
     p_HashTable->pfunc_search = pfunc_search;
     p_HashTable->pfunc_print = pfunc_print;
     p_HashTable->pfunc_compare = pfunc_compare;

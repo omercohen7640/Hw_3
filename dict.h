@@ -5,10 +5,9 @@
 #define _MAX_WORD_SIZE 25;
 #include "hash.h"
 
-typedef struct _Dic *pDic;
 typedef struct _Dic_Def *pDicDef;
 //
-/*********************************************************************************
+/******************************************************************************************
 Function name: HashWord
 Description: hash function
 Parameters:
@@ -61,7 +60,7 @@ Description: create a dictionary
 Parameters: no parameters
 Return value: return pointer to dictionary.
 **********************************************************************************/
-pDic CreateDictionary();
+pHash CreateDictionary();
 
 /*********************************************************************************
 Function name: AddTranslation
@@ -72,7 +71,7 @@ word - word the user want to add
 translation - the word's translation
 Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
-Result AddTranslation(pDic p_dic, char* word, char* translation);
+Result AddTranslation(pHash p_dic, char* word, char* translation);
 
 /*********************************************************************************
 Function name: Translate
@@ -82,7 +81,7 @@ p_dic - pointer to the dictionary
 word - word the user want to print it's definition
 Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
-Result Translate(pDic p_dic, char* word);
+Result Translate(pHash p_dic, char* word);
 
 /*********************************************************************************
 Function name: DeleteTranslation
@@ -92,7 +91,7 @@ p_dic - pointer to the dictionary
 word - word the user want to delete it's definition
 Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
-Result DeleteTranslation(pDic p_dic, char* word);
+Result DeleteTranslation(pHash p_dic, char* word);
 
 /*********************************************************************************
 Function name: PrintDictionary
@@ -101,6 +100,6 @@ Parameters:
 p_dic - pointer to the dictionary
 Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
-Result PrintDictionary(pDic p_dic);
+Result PrintDictionary(pHash p_dic);
 
 #endif

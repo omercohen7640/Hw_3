@@ -4,9 +4,6 @@
 #include "hash.h"
 #include "dict.h"
 
-typedef struct _Dic{
-    pHash hash_table;
-}Dictionary;
 
 typedef struct _Dic_Def{
     char word[25];
@@ -85,8 +82,8 @@ Description: create a dictionary
 Parameters: no parameters
 Return value: return pointer to dictionary.
 **********************************************************************************/
-pDic CreateDictionary(){
-    pDic p_dic;
+pHash CreateDictionary(){
+    pHash p_dic;
     HashFunc p_hashfunc= HashWord; //pointer to hashFunc
     PrintFunc p_printfunc = PrintEntry; //pointer to printFunc
     CompareFunc  p_comparefunc = CompareWords; //pointer to compareFunc
@@ -106,7 +103,7 @@ word - word the user want to add
 translation - the word's translation
 Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
-Result AddTranslation(pDic p_dic, char* word, char* translation){
+Result AddTranslation(pHash p_dic, char* word, char* translation){
     int max_size = _MAX_WORD_SIZE;
     pDicDef p_dicdef;
     if ( p_dic == NULL || strlen(word) > max_size || strlen(translation)> max_size)
@@ -129,7 +126,7 @@ p_dic - pointer to the dictionary
 word - word the user want to print it's definition
 Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
-Result Translate(pDic p_dic, char* word){
+Result Translate(pHash p_dic, char* word){
     if (word == NULL) return FAIL;
     pDicDef p_dicdef = HashFind(p_dic->hash_table,word);
     printf("Translation: %s : %s\n",p_dicdef->word,p_dicdef->translation);
@@ -144,7 +141,7 @@ p_dic - pointer to the dictionary
 word - word the user want to delete it's definition
 Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
-Result DeleteTranslation(pDic p_dic, char* word){
+Result DeleteTranslation(pHash p_dic, char* word){
     if (word == NULL) return FAIL;
     return HashRemove(p_dic->hash_table,word);
 }
@@ -156,7 +153,7 @@ Parameters:
 p_dic - pointer to the dictionary
 Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
-Result PrintDictionary(pDic p_dic){
+Result PrintDictionary(pHash p_dic){
     if (p_dic == NULL) return FAIL;
     printf("Dictionary Contents\n");
     return HashPrint(p_dic->hash_table);
