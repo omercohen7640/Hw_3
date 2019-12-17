@@ -5,7 +5,6 @@
 // Insert your code here...
 
 //------definition of struct node element--------//
-
 typedef struct _nodeElement {
     pKey pElement_key; // not sure if needed...
     pElement pData;
@@ -54,7 +53,13 @@ pHash HashCreate (int size, HashFunc pfunc_search, PrintFunc pfunc_print, Compar
     {
         malloc_error();
     }
+    p_HashTable->hashTable_size = size;
     p_HashTable->table_head = pNodeElement;
+    p_HashTable->pfunc_search = pfunc_search;
+    p_HashTable->pfunc_print = pfunc_print;
+    p_HashTable->pfunc_compare = pfunc_compare;
+    p_HashTable->pfunc_getKey = pfunc_getKey;
+    p_HashTable->pfunc_destroy = pfunc_destroy;
     return p_HashTable;
 }
 
@@ -75,7 +80,7 @@ Result HashAdd (pHash p_HashTable, pElement p_element)
         malloc_error();
     }
         //extract element's key:
-    pKey newElem_key = p_HashTable->pfunc_getKey(p_element);
+    pNode_newElem->pElement_key = p_HashTable->pfunc_getKey(p_element);
         //assign element's info to node:
 
     int place_in_hashTable = p_HashTable->pfunc_search(newElem_key, p_HashTable->hashTable_size);

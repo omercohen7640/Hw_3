@@ -16,7 +16,7 @@ typedef pKey (*GetKeyFunc) (pElement element);
 typedef void (*DestroyFunc)(pElement element); // should return Result value?
 
 // definition of node in linked list
-typedef struct _pNode_Element *pNode_Element;
+typedef struct _nodeElement *pNode_Element;
 
 // Add your declarations here...
 /*********************************************************************************
