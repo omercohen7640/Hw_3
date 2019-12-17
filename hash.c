@@ -29,6 +29,8 @@ void malloc_error()
     printf("Error Allocating Memory");
     exit (1);
 }
+
+
 //-----------------------------------------------------------------------------------------//
 
 /*********************************************************************************
@@ -45,6 +47,8 @@ Return value: pHash - a pointer to the hash table created
 pHash HashCreate (int size, HashFunc pfunc_search, PrintFunc pfunc_print, CompareFunc pfunc_compare,
                   GetKeyFunc pfunc_getKey, DestroyFunc pfunc_destroy)
 {
+    if (size < 1 || pfunc_search == NULL || pfunc_print == NULL || pfunc_compare == NULL || pfunc_getKey == NULL ||
+        pfunc_destroy == NULL) exit (1);
     pHash p_HashTable = NULL;
     pNode_Element pNodeElement = NULL;
     p_HashTable = (pHash)malloc(sizeof(hashTable)); //is this ok? i'm not sure..
@@ -72,6 +76,7 @@ Return value: Result - FAIL if couldn't add to the table, else SUCCESS
 **********************************************************************************/
 Result HashAdd (pHash p_HashTable, pElement p_element)
 {
+    if (p_HashTable == NULL || p_element == NULL) return FAIL;
     pNode_Element pNode_newElem = NULL;
         //create node for new element:
     pNode_newElem = (pNode_Element)malloc(sizeof(node_element));
@@ -82,8 +87,14 @@ Result HashAdd (pHash p_HashTable, pElement p_element)
         //extract element's key:
     pNode_newElem->pElement_key = p_HashTable->pfunc_getKey(p_element);
         //assign element's info to node:
-
-    int place_in_hashTable = p_HashTable->pfunc_search(newElem_key, p_HashTable->hashTable_size);
+    pNode_newElem->pData = p_element;
+    int place_in_hashTable = p_HashTable->pfunc_search(pNode_newElem->pElement_key, p_HashTable->hashTable_size);
+    pNode_Element current = *(p_HashTable->table_head + place_in_hashTable);
+        //new element will point on first element in linked list:
+    pNode_newElem->pNext_node = current;
+        //new element will now be head of linked list:
+    *(p_HashTable->table_head + place_in_hashTable) = pNode_newElem;
+    return SUCCESS;
 }
 
 /*********************************************************************************
@@ -95,15 +106,20 @@ Return value: pElement - a pointer to the element with the key given
 **********************************************************************************/
 pElement HashFind (pHash p_HashTable, pKey p_key)
 {
+    if (p_HashTable == NULL || p_key == NULL) return NULL;
     int place_in_hashTable = p_HashTable->pfunc_search(p_key, p_HashTable->hashTable_size);
     pNode_Element current = *(p_HashTable->table_head + place_in_hashTable);
     while (current != NULL)
     {
+            //check if current element's key is same as key given:
         if (p_HashTable->pfunc_compare(p_key, current->pElement_key) == SAME)
         {
-
+            return current->pData;
         }
+        current = current->pNext_node;
     }
+    //if key not found, return NULL:
+    return NULL;
 }
 
 /*********************************************************************************
@@ -115,7 +131,23 @@ Return value: Result - FAIL if couldn't remove, else SUCCESS
 **********************************************************************************/
 Result HashRemove (pHash p_HashTable, pKey p_key)
 {
-    pNode_Element p_elem_found =
+    if (p_HashTable == NULL || p_key == NULL) return FAIL;
+    int place_in_hashTable = p_HashTable->pfunc_search(p_key, p_HashTable->hashTable_size);
+    pNode_Element p_elem_to_delete = *(p_HashTable->table_head + place_in_hashTable);
+    while (p_elem_to_delete != NULL)
+    {
+        if (p_HashTable->pfunc_compare(p_key, p_elem_to_delete->pElement_key) == SAME)
+        {
+                //free element:
+            p_HashTable->pfunc_destroy(p_elem_to_delete->pData);
+                //free element's node:
+            free(p_elem_to_delete);
+            return SUCCESS;
+        }
+        p_elem_to_delete = p_elem_to_delete->pNext_node;
+    }
+    //if element wasn't found return fail:
+    return FAIL;
 }
 
 /*********************************************************************************
