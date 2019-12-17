@@ -89,8 +89,7 @@ pHash CreateDictionary(){
     CompareFunc  p_comparefunc = CompareWords; //pointer to compareFunc
     GetKeyFunc p_getkey = GetEntryKey; //pointer to getKeyFunc
     DestroyFunc p_destroyfunc = DestroyEntry; //pointer to destroyFunc
-    p_dic = (pDic)malloc(sizeof(Dictionary));
-    p_dic->hash_table = HashCreate(((int)_DIC_SIZE_),p_hashfunc,p_printfunc,p_comparefunc,p_getkey,p_destroyfunc);
+    p_dic = HashCreate(((int)_DIC_SIZE_),p_hashfunc,p_printfunc,p_comparefunc,p_getkey,p_destroyfunc);
     return p_dic;
 }
 
@@ -114,7 +113,7 @@ Result AddTranslation(pHash p_dic, char* word, char* translation){
         p_dicdef = (pDicDef)malloc(sizeof(DicDef));
         strcpy(p_dicdef->word,word);
         strcpy(p_dicdef->translation,translation);
-        return HashAdd(p_dic->hash_table,p_dicdef);
+        return HashAdd(p_dic,p_dicdef);
     }
 }
 
@@ -128,7 +127,7 @@ Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
 Result Translate(pHash p_dic, char* word){
     if (word == NULL) return FAIL;
-    pDicDef p_dicdef = HashFind(p_dic->hash_table,word);
+    pDicDef p_dicdef = HashFind(p_dic,word);
     printf("Translation: %s : %s\n",p_dicdef->word,p_dicdef->translation);
     return SUCCESS;
 }
@@ -143,7 +142,7 @@ Return value: return SUCCESS or FAILURE.
 **********************************************************************************/
 Result DeleteTranslation(pHash p_dic, char* word){
     if (word == NULL) return FAIL;
-    return HashRemove(p_dic->hash_table,word);
+    return HashRemove(p_dic,word);
 }
 
 /*********************************************************************************
@@ -156,7 +155,7 @@ Return value: return SUCCESS or FAILURE.
 Result PrintDictionary(pHash p_dic){
     if (p_dic == NULL) return FAIL;
     printf("Dictionary Contents\n");
-    return HashPrint(p_dic->hash_table);
+    return HashPrint(p_dic);
 }
 
 
