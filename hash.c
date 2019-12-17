@@ -156,7 +156,22 @@ Description: the function prints the elements in the table
 Parameters: p_HashTable - a pointer to the hash table
 Return value: Result - FAIL if couldn't print, else SUCCESS
 **********************************************************************************/
-Result HashPrint (pHash p_HashTable);
+Result HashPrint (pHash p_HashTable){
+    if (p_HashTable == NULL) return FAIL;
+    pNode_Element* arrey = p_HashTable->table_head;
+    pNode_Element current;
+    int i = 0;
+    while (i < p_HashTable->hashTable_size)
+    {
+            current = *(arrey + i);
+            while (current != NULL)
+            {
+                p_HashTable->pfunc_print(current->pData);
+                current = current->pNext_node;
+            }
+        i++;
+    }
+}
 
 /*********************************************************************************
 Function name: HashDestroy
@@ -164,5 +179,22 @@ Description: the function destroys the hash table
 Parameters: p_HashTable - a pointer to the hash table
 Return value: Result - FAIL if couldn't destroy, else SUCCESS
 **********************************************************************************/
-Result HashDestroy (pHash p_HashTable);
-
+Result HashDestroy(pHash p_HashTable)
+{
+    if (p_HashTable == NULL) return FAIL;
+    pNode_Element* arrey = p_HashTable->table_head;
+    pNode_Element current,help_to_delete;
+    int i = 0;
+    while (i < p_HashTable->hashTable_size)
+    {
+        current = *(arrey + i);
+        while (current != NULL)
+        {
+            help_to_delete = current;
+            current = current->pNext_node;
+            p_HashTable->pfunc_destroy(help_to_delete->pData);
+            free(help_to_delete);
+        }
+        i++;
+    }
+}
